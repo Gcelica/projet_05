@@ -4,11 +4,11 @@ function lesKanaps(index) {
 
   // boucle pour chaque 'article' a afficher dans index
   for (let article of index) {
-    positionArticle.innerHTML += `<a href= >
+    positionArticle.innerHTML += `<a href=./product.html?_id=${article._id}" >
     <article>
-      <img src=>
-      <h3 class="productName"></h3>
-      <p class="productDescription">'${test}'</p>
+      <img src="${article.imageUrl}" alt="${article.altTxt}">
+      <h3 class="productName">${article.name}</h3>
+      <p class="productDescription">'${article.descritption}'</p>
     </article>
   </a>`;
   }
