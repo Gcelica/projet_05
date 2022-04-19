@@ -7,6 +7,7 @@ fetch("http://localhost:3000/api/products")
   .then((canapes) => {
     product = canapes;
     console.log(product);
+
     for (let article of product) {
       console.log();
 
