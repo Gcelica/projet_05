@@ -17,12 +17,15 @@ fetch("http://localhost:3000/api/products/" + productId)
     for (var item of Object.entries(product)) {
       console.log();
 
+      //creation <img>
       const imgContainer = document.getElementsByClassName("item__img");
       const imageKanap = document.createElement("img");
       imageKanap.src = product.imageUrl;
       imageKanap.alt = document.createTextNode("Photographie d'un canapé");
       imgContainer[0].appendChild(imageKanap);
+      
 
+      //creation <h3>nom du produit</h3>
       const titlePrice = document.getElementsByClassName(
         "item__content__titlePrice"
       );
@@ -30,10 +33,47 @@ fetch("http://localhost:3000/api/products/" + productId)
       title.textContent = product.name;
       titlePrice[0].prepend(title);
 
+
+        //creation <span>price<span>
       const displayPrice = document.getElementsByName("p");
       const price = document.getElementById("price");
       price.textContent = product.price;
-      displayPrice[0].appendChild(price);
+      /*displayPrice[0].appendChild(price);*/ //indique une erreur dans la console
+
+      const itemContent = document.getElementsByClassName("item_content_description");
+      const description = document.getElementById ("description");
+      description.textContent = product.description;
+      
+//------------------------------------------------------------------
+     /* window.addEventListener('DOMContentLoaded', function(){
+        var f = document.getElementById('data');
+      
+        colors = ['red', 'green', 'blue', 'yellow'];
+      
+        var combo = document.createElement('select');
+      
+        while(colors.length)
+        {
+            var couleur = colors.pop();
+            var opt = new Option(couleur, couleur);
+            combo.options[combo.options.length] = opt;
+        }
+        f.appendChild(combo);
+      });*/
+
+      //-----------------------------------------------------------
+      /*var s = document.getElementById('s');
+      var options = [];
+
+      options.forEach(function(element, key) {
+      if (element == 'zéro') {
+     s[s.options.length] = new Option(element, s.options.length, false, false);
+    }
+    if (element == 'un') {
+    s[s.options.length] = new Option(element, s.options.length, true, false); // Ajouter l'attribut "selected"
+  }
+    if (element == 'deux') {
+    s[s.options.length] = new Option(element, s.options.length, false, true); // Sélectionnera l'option*/
     }
   });
 
