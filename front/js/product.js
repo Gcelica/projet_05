@@ -6,6 +6,8 @@ if (searchParams.has("id")) {
 } else {
   window.location.pathname = "product.html";
 }
+
+//array
 var product = [];
 
 fetch("http://localhost:3000/api/products/" + productId)
@@ -14,85 +16,147 @@ fetch("http://localhost:3000/api/products/" + productId)
     product = canapes;
     console.log(product);
 
-    for (var item of Object.entries(product)) {
-      console.log();
+    //creation <img>
+    const imgContainer = document.getElementsByClassName("item__img");
+    const imageKanap = document.createElement("img");
+    imageKanap.src = product.imageUrl;
+    imageKanap.alt = document.createTextNode("Photographie d'un canapé");
+    imgContainer[0].appendChild(imageKanap);
 
-      //creation <img>
-      const imgContainer = document.getElementsByClassName("item__img");
-      const imageKanap = document.createElement("img");
-      imageKanap.src = product.imageUrl;
-      imageKanap.alt = document.createTextNode("Photographie d'un canapé");
-      imgContainer[0].appendChild(imageKanap);
-      
+    //creation <h3>nom du produit</h3>
+    const titlePrice = document.getElementsByClassName(
+      "item__content__titlePrice"
+    );
+    const title = document.getElementById("title");
+    title.textContent = product.name;
+    titlePrice[0].prepend(title);
 
-      //creation <h3>nom du produit</h3>
-      const titlePrice = document.getElementsByClassName(
-        "item__content__titlePrice"
-      );
-      const title = document.getElementById("title");
-      title.textContent = product.name;
-      titlePrice[0].prepend(title);
+    //creation <span>price<span>
+    const price = document.getElementById("price");
+    price.textContent = product.price;
+     
+    //creation <description>
+    /* const itemContent = document.getElementsByClassName(
+        "item_content_description"
+      );*/
+    const description = document.getElementById("description");
+    description.textContent = product.description;
 
-
-        //creation <span>price<span>
-      const displayPrice = document.getElementsByName("p");
-      const price = document.getElementById("price");
-      price.textContent = product.price;
-      /*displayPrice[0].appendChild(price);*/ //indique une erreur dans la console
-
-      const itemContent = document.getElementsByClassName("item_content_description");
-      const description = document.getElementById ("description");
-      description.textContent = product.description;
-      
-//------------------------------------------------------------------
-     /* window.addEventListener('DOMContentLoaded', function(){
-        var f = document.getElementById('data');
-      
-        colors = ['red', 'green', 'blue', 'yellow'];
-      
-        var combo = document.createElement('select');
-      
-        while(colors.length)
-        {
-            var couleur = colors.pop();
-            var opt = new Option(couleur, couleur);
-            combo.options[combo.options.length] = opt;
-        }
-        f.appendChild(combo);
-      });*/
-
-      //-----------------------------------------------------------
-      /*var s = document.getElementById('s');
-      var options = [];
-
-      options.forEach(function(element, key) {
-      if (element == 'zéro') {
-     s[s.options.length] = new Option(element, s.options.length, false, false);
+    //creation <option>colors
+    const contentSelect = document.getElementById("colors");
+    for (let i = 0; i < product.colors.length; i++) {
+      let color = document.createElement("option");
+      color.setAttribute("value", product.colors[i]);
+      color.textContent = product.colors[i];
+      contentSelect.appendChild(color);
     }
-    if (element == 'un') {
-    s[s.options.length] = new Option(element, s.options.length, true, false); // Ajouter l'attribut "selected"
-  }
-    if (element == 'deux') {
-    s[s.options.length] = new Option(element, s.options.length, false, true); // Sélectionnera l'option*/
-    }
+
+    addToCart(product);
   });
 
-/*var map = new Map(Object.entries(product));
-    console.log(map);*/
+//Fonctionnement bouton panier
 
-/*for (let article of product) {
-      console.log();
+const selectQuantity = document.getElementById("quantity");
+let quantityChoice = selectQuantity.value;
+const selectColors = document.getElementById("colors");
+let colorsChoices = selectColors.value;
+var arrayOfProducts = []
+ 
+//evenement "click" du bouton panier
+const addToCart = () => {
+  let btnAddToCart = document.getElementById("addToCart");
+  btnAddToCart.addEventListener("click", () => {
+    
+    if (selectQuantity.value > 0 && selectQuantity.value <=100 && selectColors.value != 0){
+      
+      //option de l'article
+      let productOptions = {
+        altImgProduct: product.altTxt,
+        idProduit: productId,
+        imgProduct: product.imageUrl,
+        priceProduct: product.price,
+        productColor: colorsChoices,
+        productDescription: product.description,
+        productName: product.name,
+        productQuantity: quantityChoice,
+       
+    };
 
-      const productContainer = document.getElementsByTagName("article");
-      const imageKanap = document.createElement("img");
-      imageKanap.src = product.imageUrl;
-      imageKanap.alt = document.createTextNode("Photographie d'un canapé");
-      productContainer.appendChild(imageKanap);
+    
+    //local storage
+    let arrayOfProducts = JSON.parse(localStorage.getItem("produit"));
 
-      const title = document.getElementsById("title");
-      const productTitle = document.createTextNode + product.name;
+    //si il y un article dans le panier
+    if (arrayOfProducts){
+      const findResult = arrayOfProducts.find(
+        (elt) => elt.idProduct === productId && elt.productColor === colorsChoices);
+
+        //si le produit est dans le panier
+        if (findResult) {
+          let newQuantity = parseInt(productOptions.productQuantity) + parseInt(findResult.productQuantity);
+          findResult.productQuantity = newQuantity;
+          localStorage.setItem("produit",JSON.stringify (arrayOfProducts));
+          console.log("arrayOfProduct egal :");
+                    console.log(arrayOfProducts);
+                    console.log("fin arrayOfProduct");
+
+        //si le produit n'est pas dans le panier
+        }else {
+          arrayOfProducts.push(productOptions);
+          localStorage.setItem("produit", JSON.stringify(arrayOfProducts));
+          console.log(arrayOfProducts);  
+      }
+
+      // si le panier est vide
+    } else {
+      arrayOfProducts =[];
+      arrayOfProducts.push(productOptions);
+      localStorage.setItem("produit", JSON.stringify(arrayOfProducts));
+      console.log(arrayOfProducts);
+
+    }}
+  });
+}
+
+/*var selectQuantityNumber = parseInt(selectQuantity.value);
+arrayOfProducts = [selectColors.value,selectQuantityNumber,productId];
+   
+if (); {
+       
+    console.log(arrayOfProducts);
+    localStorage.setItem("savedData", JSON.stringify(arrayOfProducts));
     }
+   
+  });
+  return arrayOfProducts =JSON.parse(localStorage.getItem("saveData"));*/
 
-    /*const productTitle = document.createTextNode + article.name,
-      title = document.getElementsById("title");
-   title.appendChild(productTitle);*/
+
+/*//fenêtre pop-up
+const alerteConfirmation =() =>{
+  if(window.confirm(`Votre commande de ${choixQuantite} ${article.name} ${choixCouleur} est ajoutée au panier
+Pour consulter votre panier, cliquez sur OK`)){
+      window.location.href ="cart.html";
+  }
+}*/
+
+
+
+
+
+
+
+/*//test test
+const addToCart = () => {
+  let btnAdd = document.getElementById("addToCart");
+};
+//test test
+bouton.onclick = () => {
+  localStorage.setItem(key, value);
+};*/
+/*var contentSelect = document.getElementById("colors");
+      var options = [product.colors];
+      options.forEach(function (colors,colors_select) {
+        select = new Option(colors, product.colors);
+
+        contentSelect.append(select);
+      });*/
