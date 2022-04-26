@@ -34,7 +34,7 @@ fetch("http://localhost:3000/api/products/" + productId)
     //creation <span>price<span>
     const price = document.getElementById("price");
     price.textContent = product.price;
-     
+
     //creation <description>
     /* const itemContent = document.getElementsByClassName(
         "item_content_description"
@@ -60,15 +60,17 @@ const selectQuantity = document.getElementById("quantity");
 let quantityChoice = selectQuantity.value;
 const selectColors = document.getElementById("colors");
 let colorsChoices = selectColors.value;
-var arrayOfProducts = []
- 
+var arrayOfProducts = [];
+
 //evenement "click" du bouton panier
 const addToCart = () => {
   let btnAddToCart = document.getElementById("addToCart");
   btnAddToCart.addEventListener("click", () => {
-    
-    if (selectQuantity.value > 0 && selectQuantity.value <=100 && selectColors.value != 0){
-      
+    if (
+      selectQuantity.value > 0 &&
+      selectQuantity.value <= 100 &&
+      selectColors.value != 0
+    ) {
       //option de l'article
       let productOptions = {
         altImgProduct: product.altTxt,
@@ -79,44 +81,45 @@ const addToCart = () => {
         productDescription: product.description,
         productName: product.name,
         productQuantity: quantityChoice,
-       
-    };
+      };
 
-    
-    //local storage
-    let arrayOfProducts = JSON.parse(localStorage.getItem("produit"));
+      //local storage
+      let arrayOfProducts = JSON.parse(localStorage.getItem("produit"));
 
-    //si il y un article dans le panier
-    if (arrayOfProducts){
-      const findResult = arrayOfProducts.find(
-        (elt) => elt.idProduct === productId && elt.productColor === colorsChoices);
+      //si il y un article dans le panier
+      if (arrayOfProducts) {
+        const findResult = arrayOfProducts.find(
+          (elt) =>
+            elt.idProduct === productId && elt.productColor === colorsChoices
+        );
 
         //si le produit est dans le panier
         if (findResult) {
-          let newQuantity = parseInt(productOptions.productQuantity) + parseInt(findResult.productQuantity);
+          let newQuantity =
+            parseInt(productOptions.productQuantity) +
+            parseInt(findResult.productQuantity);
           findResult.productQuantity = newQuantity;
-          localStorage.setItem("produit",JSON.stringify (arrayOfProducts));
-          console.log("arrayOfProduct egal :");
-                    console.log(arrayOfProducts);
-                    console.log("fin arrayOfProduct");
 
-        //si le produit n'est pas dans le panier
-        }else {
+          localStorage.setItem("produit", JSON.stringify(arrayOfProducts));
+          console.log(arrayOfProducts);
+
+          //si le produit n'est pas dans le panier
+        } else {
           arrayOfProducts.push(productOptions);
           localStorage.setItem("produit", JSON.stringify(arrayOfProducts));
-          console.log(arrayOfProducts);  
+          console.table(arrayOfProducts);
+        }
+
+        // si le panier est vide
+      } else {
+        arrayOfProducts = [];
+        arrayOfProducts.push(productOptions);
+        localStorage.setItem("produit", JSON.stringify(arrayOfProducts));
+        console.log(arrayOfProducts);
       }
-
-      // si le panier est vide
-    } else {
-      arrayOfProducts =[];
-      arrayOfProducts.push(productOptions);
-      localStorage.setItem("produit", JSON.stringify(arrayOfProducts));
-      console.log(arrayOfProducts);
-
-    }}
+    }
   });
-}
+};
 
 /*var selectQuantityNumber = parseInt(selectQuantity.value);
 arrayOfProducts = [selectColors.value,selectQuantityNumber,productId];
@@ -130,7 +133,6 @@ if (); {
   });
   return arrayOfProducts =JSON.parse(localStorage.getItem("saveData"));*/
 
-
 /*//fenêtre pop-up
 const alerteConfirmation =() =>{
   if(window.confirm(`Votre commande de ${choixQuantite} ${article.name} ${choixCouleur} est ajoutée au panier
@@ -138,12 +140,6 @@ Pour consulter votre panier, cliquez sur OK`)){
       window.location.href ="cart.html";
   }
 }*/
-
-
-
-
-
-
 
 /*//test test
 const addToCart = () => {
