@@ -1,26 +1,43 @@
-function lesKanaps(index) {
-  // variable zone des articles
-  let positionArticle = document.querySelector("#items");
+//array
+var product = [];
 
-  // boucle pour chaque 'article' a afficher dans index
-  for (let article of index) {
-    positionArticle.innerHTML += `<a href= >
-    <article>
-      <img src=>
-      <h3 class="productName"></h3>
-      <p class="productDescription">'${test}'</p>
-    </article>
-  </a>`;
-  }
-}
-
+//requete fetch vers Api
 fetch("http://localhost:3000/api/products")
-  .then((response) => response.json())
+  .then((response) => response.json()) //renvoi promesse en .json
   .then((canapes) => {
-    console.table(canapes);
-    //  fonction d'affichage des produits
-    lesKanaps(canapes);
-  })
+    product = canapes;
+    console.log(product);
+    for (let article of product) {
+      console.log();
 
-  //si il y a une erreur afficher une erreur 404 dans la zone des articles
-  .catch((e) => {});
+      //creation <a>
+      const productLink = document.createElement("a");
+      productLink.href = "./product.html?id=" + article._id;
+      console.log(productLink);
+      const productContainer = document.getElementById("items");
+      productContainer.appendChild(productLink);
+
+      // creation <article>
+      const baliseArticle = document.createElement("article");
+      productContainer.appendChild(baliseArticle);
+      productLink.appendChild(baliseArticle);
+
+      //creation <img>
+      const imageKanap = document.createElement("img");
+      imageKanap.src = article.imageUrl;
+      imageKanap.alt = article.altTxt;
+      baliseArticle.appendChild(imageKanap);
+
+      //creation <h3>
+      const nameKanap = document.createElement("h3");
+      nameKanap.classList.add("productName");
+      nameKanap.textContent = article.name;
+      baliseArticle.appendChild(nameKanap);
+
+      //creation <p>
+      const descriptionKanap = document.createElement("p");
+      descriptionKanap.classList.add("productDescription");
+      descriptionKanap.textContent = article.description;
+      baliseArticle.appendChild(descriptionKanap);
+    }
+  });
