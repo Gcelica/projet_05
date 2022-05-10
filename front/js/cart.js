@@ -95,7 +95,7 @@ async function showItemCart() {
     cartItemContentSettings.append(cartItemContentSettingsDelete);
 
 
-// creation <p> lien pour supprimer article
+// creation <p> lien pour supprimer article du panier
     const btnDeleteItem = document.createElement("p");
     btnDeleteItem.classList.add("deleteItem");
     btnDeleteItem.textContent = "supprimer";
@@ -109,7 +109,8 @@ async function showItemCart() {
       let deleteIdProduct = arrayOfProducts[i].idProduct;
       let deleteColorProduct = arrayOfProducts[i].colorProduct;
 
-      arrayOfProducts = arrayOfProducts.filter(elt => elt.idProduct !== deleteIdProduct || elt.colorProduct !== deleteColorProduct);
+      arrayOfProducts = arrayOfProducts.filter( elt => elt.idProduct !== deleteIdProduct || elt.colorProduct !== deleteColorProduct);
+      
       localStorage.setItem("panier", JSON.stringify(arrayOfProducts));
 
       location.reload();
@@ -141,7 +142,7 @@ function cartPrice() {
   var quantityCart = itemQuantity.length,
   totalPrice = 0;
   for (var i = 0; i < quantityCart; ++i) {
-      totalPrice += (itemQuantity[i].valueAsNumber * arrayOfProducts[i].priceKanap);
+      totalPrice += (itemQuantity[i].valueAsNumber * infoKanap.price);
   }
   
   let totalPriceProduct = document.getElementById('totalPrice');
