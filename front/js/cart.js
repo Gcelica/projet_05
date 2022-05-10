@@ -45,19 +45,19 @@ async function showItemCart() {
     );
     cartItemContent.appendChild(cartItemContentDescription);
 
-    //creation <h2>
+    //creation <h2> nom du produit
     const nameKanap = document.createElement("h2");
     nameKanap.textContent = infoKanap.name;
     cartItemContentDescription.appendChild(nameKanap);
 
-    //creation <p>
+    //creation <p> couleur du produit
     const colorKanap = document.createElement("p");
     colorKanap.textContent = arrayOfProducts[i].colorProduct;
     cartItemContentDescription.append(colorKanap);
 
-    //creation <p>
+    //creation <p> prix du produit
     const priceKanap = document.createElement("p");
-    priceKanap.textContent = infoKanap.price;
+    priceKanap.textContent = infoKanap.price + " €";
     cartItemContentDescription.append(priceKanap);
 
     //creation <div>
@@ -72,7 +72,7 @@ async function showItemCart() {
     );
     cartItemContentSettings.appendChild(cartItemContentSettingsQuantity);
 
-    //creation <p>
+    //creation <p> quantité produit
     const quantityKanap = document.createElement("p");
     quantityKanap.textContent = "Qté:";
     cartItemContentSettingsQuantity.appendChild(quantityKanap);
@@ -84,10 +84,7 @@ async function showItemCart() {
     quantityKanapDetails.setAttribute("name", "itemQuantity");
     quantityKanapDetails.setAttribute("min", "1");
     quantityKanapDetails.setAttribute("max", "100");
-    quantityKanapDetails.setAttribute(
-      "value",
-      arrayOfProducts[i].quantityProduct
-    );
+    quantityKanapDetails.setAttribute("value",arrayOfProducts[i].quantityProduct);
     cartItemContentSettingsQuantity.append(quantityKanapDetails);
 
     //creation <div>
@@ -97,24 +94,102 @@ async function showItemCart() {
     );
     cartItemContentSettings.append(cartItemContentSettingsDelete);
 
+
+// creation <p> lien pour supprimer article
     const btnDeleteItem = document.createElement("p");
     btnDeleteItem.classList.add("deleteItem");
     btnDeleteItem.textContent = "supprimer";
     cartItemContentSettings.append(btnDeleteItem);
     cartItems.appendChild(baliseArticle);
+
+    // evenement "click" suppression article
+    btnDeleteItem.addEventListener("click", (del) => {
+      del.preventDefault;
+
+      let deleteIdProduct = arrayOfProducts[i].idProduct;
+      let deleteColorProduct = arrayOfProducts[i].colorProduct;
+
+      arrayOfProducts = arrayOfProducts.filter(elt => elt.idProduct !== deleteIdProduct || elt.colorProduct !== deleteColorProduct);
+      localStorage.setItem("panier", JSON.stringify(arrayOfProducts));
+
+      location.reload();
+    })
+
+  }
+
+  //quantité total des articles dans le panier
+  function totalProduct(){
+    
+    var itemQuantity = document.getElementsByClassName('itemQuantity');
+    var quantityCart = itemQuantity.length,
+    totalProduct = 0;
+ 
+    for (var i = 0; i < quantityCart; ++i) {
+        totalProduct += itemQuantity[i].valueAsNumber;
+    }
+    
+    let productTotalQuantity = document.getElementById('totalQuantity');
+    productTotalQuantity.textContent = totalProduct;
+ 
+ }
+ totalProduct();
+
+ //montant total du panier
+function cartPrice() {
+  
+  var itemQuantity = document.getElementsByClassName('itemQuantity');
+  var quantityCart = itemQuantity.length,
+  totalPrice = 0;
+  for (var i = 0; i < quantityCart; ++i) {
+      totalPrice += (itemQuantity[i].valueAsNumber * arrayOfProducts[i].priceKanap);
+  }
+  
+  let totalPriceProduct = document.getElementById('totalPrice');
+  totalPriceProduct.textContent = totalPrice;
+  
+  };
+  cartPrice();
+
+ //modification des quantités dans le panier
+ function cartQuantityModif() {
+  let cartModif = document.querySelectorAll(".itemQuantity");
+
+  for (let i = 0; i < cartModif.length; i++){
+      cartModif[i].addEventListener("change" , (event) => {
+          event.preventDefault();
+
+          
+          let quantityModif = arrayOfProducts[i].quantityProduct;
+          let qtyModifValue = cartModif[i].valueAsNumber;
+          
+          const findResult = arrayOfProducts.find((elt) => elt.qtyModifValue !== quantityModif);
+
+          findResult.quantityProduct = qtyModifValue;
+          arrayOfProducts[i].quantityProduct = findResult.quantityProduct;
+
+          localStorage.setItem("produit", JSON.stringify(arrayOfProducts));
+      
+          // refresh de la page panier
+          location.reload();
+      })
   }
 }
+cartQuantityModif();
+
+}
 showItemCart();
+
+
+
+  
+
+
+
+
 
 //ecouter evenement bouton supprimer
 //btnDeleteItem.addEventListener("click",() =>{})
 //creer fonction pour modifier quantité
 //creer fonction pour le total
 
-/*localStorage.setItem(key, value); //enregistre une valeur dans le storage
-localStorage.getItem(key); //recupere la valeur de la clé
-localStorage.clear(); //efface le storage
 
-bouton.onclick = () => {
-  localStorage.setItem(key, value);
-};*/
