@@ -60,7 +60,7 @@ fetch("http://localhost:3000/api/products/" + productId)
   const quantitySelect = document.getElementById("quantity");
 
   //Panier
-  function addToCart(product){
+  function addToCart(){
   const btnAddToCart = document.getElementById("addToCart");
   
   //ecoute de l'evenement "click"
