@@ -266,17 +266,17 @@ for (let i = 0; i<arrayOfProducts.length;i++) {
 }
  
 //objet formulaire et panier
- const sendFormData = {
+ const sendFormCart = {
   contact,
   arrayCartProducts,
 }
 
 //envoi du formulaire et du panier au serveur 
 const postdata = {
-  method: 'POST',
-  body: JSON.stringify(sendFormData),
+  method: "POST",
+  body: JSON.stringify(sendFormCart),
   headers: { 
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   }
 };
 
