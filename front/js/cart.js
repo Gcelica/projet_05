@@ -252,11 +252,11 @@ var arrayOfProducts = JSON.parse(localStorage.getItem("produit"));
 
  // creation d'un objet "contact" avec les infos du formulaire 
  const contact = {
-  firstName : document.getElementById('firstName').value,
-  lastName : document.getElementById('lastName').value,
-  address : document.getElementById('address').value,
-  city : document.getElementById('city').value,
-  email : document.getElementById('email').value
+  firstName : document.getElementById("firstName").value,
+  lastName : document.getElementById("lastName").value,
+  address : document.getElementById("address").value,
+  city : document.getElementById("city").value,
+  email : document.getElementById("email").value
 }
 
 //tableau recapitulatif du panier
@@ -280,11 +280,13 @@ const postdata = {
   }
 };
 
+
 fetch("http://localhost:3000/api/products/order", postdata)
         .then(response => response.json())
-        .then(dataCart => {
-        localStorage.setItem("orderId", dataCart.orderId);
-        document.location.href = 'confirmation.html?id='+ dataCart.orderId;
+        .then(data => {
+          
+        localStorage.setItem("orderId", data.orderId);
+        document.location.href = "confirmation.html?id="+ data.orderId;
       });
 });
 
