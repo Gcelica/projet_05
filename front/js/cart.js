@@ -287,12 +287,11 @@ console.log(data);
 fetch("http://localhost:3000/api/products/order",data)
         .then(response => response.json())
         .then(data => {  
-        localStorage.setItem("orderId", data.orderId);
+        
         console.log(data.orderId);
         document.location.href = "confirmation.html?id="+ data.orderId;
       });
 
-     
       });
 
 }
