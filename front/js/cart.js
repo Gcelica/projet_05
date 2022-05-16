@@ -246,6 +246,7 @@ let email = document.getElementById("email");
 
 function sendForm() {
 var arrayOfProducts = JSON.parse(localStorage.getItem("produit"));
+console.log(arrayOfProducts);
   const order = document.getElementById("order");
   order.addEventListener("click", (evt) => {
     evt.preventDefault();
@@ -260,35 +261,39 @@ var arrayOfProducts = JSON.parse(localStorage.getItem("produit"));
 }
 
 //tableau recapitulatif du panier
-var arrayCartProducts = [];
+let products = [];
 for (let i = 0; i<arrayOfProducts.length;i++) {
-  arrayCartProducts.push(arrayOfProducts[i].idKanap);
+    products.push(arrayOfProducts[i].idProduct);
 }
+console.log(products);
  
 //objet formulaire et panier
  const sendFormCart = {
   contact,
-  arrayCartProducts,
+  products,
 }
+console.log(sendFormCart);
 
 //envoi du formulaire et du panier au serveur 
-const postdata = {
+const data = {
   method: "POST",
   body: JSON.stringify(sendFormCart),
   headers: { 
     "Content-Type": "application/json",
   }
 };
+console.log(data);
 
-
-fetch("http://localhost:3000/api/products/order", postdata)
+fetch("http://localhost:3000/api/products/order",data)
         .then(response => response.json())
-        .then(data => {
-          
+        .then(data => {  
         localStorage.setItem("orderId", data.orderId);
+        console.log(data.orderId);
         document.location.href = "confirmation.html?id="+ data.orderId;
       });
-});
+
+     
+      });
 
 }
 sendForm();

@@ -109,8 +109,6 @@ fetch("http://localhost:3000/api/products/" + productId)
           console.log(arrayOfProducts);
           
       }
-    //if ( selectColor !== "" && selectQuantity > 0)
-    //si le panier est vide
     
     }}   
   )};
