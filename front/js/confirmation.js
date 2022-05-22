@@ -10,7 +10,7 @@ if (searchParams.has("id")) {
   window.location.pathname = "confirmation.html";
 }
 
-//affichage du numero de commande
+//affichage du numero de commande sur la page
 function confirmation() {
 const idConfirmation = document.getElementById("orderId")
 idConfirmation.textContent = orderId;

@@ -1,7 +1,7 @@
 //array
 var product = [];
 
-//requete fetch vers Api
+//requete fetch vers Api 
 fetch("http://localhost:3000/api/products")
   .then((response) => response.json()) //renvoi promesse en .json
   .then((canapes) => {
