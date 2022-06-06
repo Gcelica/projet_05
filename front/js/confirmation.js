@@ -1,4 +1,3 @@
-
 //recuperation du numero de commande dans l'URL
 
 let searchParams = new URLSearchParams(window.location.search);
@@ -12,9 +11,9 @@ if (searchParams.has("id")) {
 
 //affichage du numero de commande sur la page
 function confirmation() {
-const idConfirmation = document.getElementById("orderId")
-idConfirmation.textContent = orderId;
-console.log(idConfirmation);
-localStorage.clear();
+  const idConfirmation = document.getElementById("orderId");
+  idConfirmation.textContent = orderId;
+  console.log(idConfirmation);
+  localStorage.clear();
 }
 confirmation();
